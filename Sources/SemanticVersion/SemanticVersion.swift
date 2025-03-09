@@ -15,20 +15,25 @@ public struct SemanticVersion: Equatable, Sendable {
 
   /// 文字列から `SemanticVersion` を生成するイニシャライザ
   ///
-  /// - Parameter string: "major.minor.patch" 形式の文字列
+  /// - Parameter string: "major.minor.patch" または "major.minor" 形式の文字列
   /// - Returns: 正しいフォーマットならインスタンスを返し、そうでなければ nil を返す
   public init?(string: String) {
     let components = string.split(separator: ".")
 
-    guard components.count == 3,
+    if components.count == 3,
       let major = Int(components[0]),
       let minor = Int(components[1]),
       let patch = Int(components[2])
-    else {
+    {
+      self.init(major: major, minor: minor, patch: patch)
+    } else if components.count == 2,
+      let major = Int(components[0]),
+      let minor = Int(components[1])
+    {
+      self.init(major: major, minor: minor, patch: 0)
+    } else {
       return nil
     }
-
-    self.init(major: major, minor: minor, patch: patch)
   }
 }
 

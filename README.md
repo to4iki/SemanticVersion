@@ -22,6 +22,11 @@ if let version2 = SemanticVersion(string: "2.0.0") {
     print(version2) // 2.0.0
 }
 
+// Initialize from string with only major and minor version
+if let version2a = SemanticVersion(string: "2.0") {
+    print(version2a) // 2.0.0 (patch version will be 0)
+}
+
 // Initialize with string literal
 let version3: SemanticVersion = "1.0.0"
 

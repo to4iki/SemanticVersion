@@ -18,9 +18,23 @@ func initWithValidString(string: String, major: Int, minor: Int, patch: Int) asy
   #expect(version?.patch == patch)
 }
 
-@Test(arguments: ["invalid", "1.2", "1.2.three", "1.2.3.4", "", "a.b.c"])
+@Test(arguments: ["invalid", "1.2.three", "1.2.3.4", "", "a.b.c"])
 func initWithInvalidString(invalidString: String) async throws {
   #expect(SemanticVersion(string: invalidString) == nil)
+}
+
+@Test(arguments: [
+  (string: "1.2", major: 1, minor: 2, patch: 0),
+  (string: "0.1", major: 0, minor: 1, patch: 0),
+  (string: "10.20", major: 10, minor: 20, patch: 0),
+])
+func initWithMajorMinorString(string: String, major: Int, minor: Int, patch: Int) async throws {
+  let version = SemanticVersion(string: string)
+
+  #expect(version != nil)
+  #expect(version?.major == major)
+  #expect(version?.minor == minor)
+  #expect(version?.patch == patch)
 }
 
 @Test func initWithStringLiteral() async throws {
